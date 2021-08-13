@@ -9,6 +9,7 @@ function App() {
   return (
     <div>
       <Switch>
+        {/* Swith is used when we dont want to run multiple component but the '/' one */}
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
       </Switch>
