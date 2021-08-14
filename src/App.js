@@ -4,10 +4,12 @@ import "./App.css";
 
 import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
+import Header from "./components/header/header.component";
 
 function App() {
   return (
     <div>
+      <Header />
       <Switch>
         {/* Exact is used when the user type only ab.com/(nothing here), otherwise Switch will render all the route in it */}
         {/* Switch only render the first match url in the list of route, if abc.com/sadds -> only render abc.com/ (exact if off)*/}
