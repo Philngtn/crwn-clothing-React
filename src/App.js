@@ -9,7 +9,8 @@ function App() {
   return (
     <div>
       <Switch>
-        {/* Swith is used when we dont want to run multiple component but the '/' one */}
+        {/* Exact is used when the user type only ab.com/(nothing here), otherwise Switch will render all the route in it */}
+        {/* Switch only render the first match url in the list of route, if abc.com/sadds -> only render abc.com/ (exact if off)*/}
         <Route exact path="/" component={HomePage} />
         <Route path="/shop" component={ShopPage} />
       </Switch>
