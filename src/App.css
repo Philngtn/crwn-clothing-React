@@ -9,5 +9,6 @@ a{
 }
 
 *{
+    /* This to align the border box of signin button and input forms, which is shifted abit because of padding*/
     box-sizing: border-box;
 }

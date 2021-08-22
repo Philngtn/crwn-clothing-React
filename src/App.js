@@ -6,7 +6,7 @@ import HomePage from "./pages/homepage/homepage.component";
 import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./components/signin-and-signout/sign-in-and-sign-up.component";
-import {auth} from './firebase/filebase.utils';
+import {auth , createUserProfileDocument} from './firebase/filebase.utils';
 
 
 class App extends React.Component {
@@ -15,21 +15,45 @@ class App extends React.Component {
 
     this.state = {
       currentUser: null
-    }
+    };
 
   }
 
+  // Declare whether a loged in user
   unsubcribeFromAuth = null;
 
   componentDidMount(){
-    this.unsubcribeFromAuth = auth.onAuthStateChanged(user => {
-      this.setState({currentUser : user})
 
-      console.log(user);
-    })
+    // Using onAuthStateChange to check current logged in user
+    this.unsubcribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+      // If there is a logged in user perform the snapshot or wait to check whter the logged in user
+      // is in the database or not (if not create database, else return recorded user)
+      if (userAuth){
+
+        const userRef = await createUserProfileDocument(userAuth);
+        
+        // Taking snapshot and set the currentUser state
+        // If we want to see the log, add to the 2nd arg of the setState command to see the latest updated of state
+        userRef.onSnapshot(snapShot => {
+          this.setState({
+              currentUser: {
+                id: snapShot.id,
+                ...snapShot.data()
+              }
+            });
+
+            console.log(this.state);
+        });
+      }else{
+        // else return null;
+        this.setState({currentUser:userAuth});
+      }
+
+    });
   }
 
   componentWillUnmount(){
+    // set the null
     this.unsubcribeFromAuth();
   }
 
