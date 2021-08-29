@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
-import { ReactComponent as Logo } from '../../assets/crown.svg'
+import { connect } from 'react-redux';
 
-import './header.style.scss'
+import { ReactComponent as Logo } from '../../assets/crown.svg';
+
+import './header.style.scss';
 
 import { auth } from '../../firebase/filebase.utils';
 
@@ -32,4 +34,10 @@ const Header = ({ currentUser }) => (
     </div>
 )
 
-export default Header
+// State is the top level of rootReducer
+const mapStateToProps = state => ({
+    currentUser: state.user.currentUser
+})
+
+
+export default connect(mapStateToProps)(Header)
