@@ -1,5 +1,5 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route , Redirect} from "react-router-dom";
 import "./App.css";
 
 // Pages
@@ -19,7 +19,7 @@ import { connect } from 'react-redux';
 class App extends React.Component {
   
 
-  // Declare whether a loged in user
+  // Declare whether a user has been logged 
   unsubcribeFromAuth = null;
 
   componentDidMount(){
@@ -40,7 +40,7 @@ class App extends React.Component {
           mSetCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
-          })
+          });
         });
       }else{
         // else return null;
@@ -64,16 +64,29 @@ class App extends React.Component {
           {/* Switch only render the first match url in the list of route, if abc.com/sadds -> only render abc.com/ (exact if off)*/}
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
-          <Route path="/signin" component={SignInAndSignUpPage} />
+          <Route 
+            exact 
+            path="/signin" 
+            render={() => 
+              this.props.currentUser ? (
+                <Redirect to='/' />
+              ) : (
+                <SignInAndSignUpPage/>)
+            }
+          />
         </Switch>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({user}) => ({
+  currentUser : user.currentUser
+})
+
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
+    mSetCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
-// null because the App does not have the props, the second arg is used to let "user state" to use inside the App component
-export default connect(null, mapDispatchToProps)(App);
+// null because the App does not need the props from Reducer, the second arg is used to let "user state" to use inside the App component
+export default connect(mapStateToProps, mapDispatchToProps)(App);
