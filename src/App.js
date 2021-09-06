@@ -24,7 +24,7 @@ class App extends React.Component {
 
   componentDidMount(){
 
-    const {mSetCurrentUser} = this.props;
+    const { setCurrentUser } = this.props;
 
     // Using onAuthStateChange to check current logged in user
     this.unsubcribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -37,14 +37,14 @@ class App extends React.Component {
         // If we want to see the log, add to the 2nd arg of the setState command to see the latest updated of state (old)
         // Using REDUX instead
         userRef.onSnapshot(snapShot => {
-          mSetCurrentUser({
+          setCurrentUser({
             id: snapShot.id,
             ...snapShot.data()
           });
         });
       }else{
         // else return null;
-        mSetCurrentUser(userAuth);
+        setCurrentUser(userAuth);
       }
 
     });
@@ -85,7 +85,7 @@ const mapStateToProps = ({user}) => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    mSetCurrentUser: user => dispatch(setCurrentUser(user))
+    setCurrentUser: user => dispatch(setCurrentUser(user))
 });
 
 // null because the App does not need the props from Reducer, the second arg is used to let "user state" to use inside the App component
