@@ -36,7 +36,8 @@ const Header = ({ currentUser, hidden }) => (
     </div>
 )
 
-// State is the top level of rootReducer
+// State is the top level of rootReducer or we can decompose the value in rootReducer and take
+// the props we need, for example currentUser from user in rootReducer ( which will return userReducer.state)
 const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
     currentUser,
     hidden
