@@ -11,6 +11,10 @@ import { auth } from '../../firebase/filebase.utils';
 import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropDown from '../cart/cart-dropdown.component';
 
+import { createStructuredSelector } from 'reselect';
+import { selectCartHidden } from '../../redux/cart/cart.selectors';
+import { selectCurrentUser } from '../../redux/user/user.selectors';
+
 const Header = ({ currentUser, hidden }) => (
     <div className='header'>
         <Link className='logo-container' to='/'>
@@ -38,9 +42,11 @@ const Header = ({ currentUser, hidden }) => (
 
 // State is the top level of rootReducer or we can decompose the value in rootReducer and take
 // the props we need, for example currentUser from user in rootReducer ( which will return userReducer.state)
-const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
-    currentUser,
-    hidden
+
+// createStructuredSelector will help to pass the state to the functions (selectCurrentUser,...) 
+const mapStateToProps = createStructuredSelector({
+    currentUser: selectCurrentUser,
+    hidden: selectCartHidden
 })
 
 
