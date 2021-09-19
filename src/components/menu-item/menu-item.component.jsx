@@ -1,5 +1,6 @@
 import React from 'react';
 import './menu-item.style.scss';
+
 import { withRouter } from 'react-router-dom';
 
 
@@ -18,4 +19,6 @@ const MenuItem = ({ title, imageUrl, size, history, linkUrl, match }) => (
     </div>
 )
 
+// withRouter will allow the MenuItem access to the props added by <Router> which are history, match, and location
+// The <Router> renders Homepage -> Directory -> MenuItem
 export default withRouter(MenuItem)

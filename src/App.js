@@ -63,6 +63,7 @@ class App extends React.Component {
           {/* Exact is used when the user type only ab.com/(nothing here), otherwise Switch will render all the route in it */}
           {/* Switch only render the first match url in the list of route, if abc.com/sadds -> only render abc.com/ (exact if off)
           , otherwise it will render all the matching page both abc.com/sadds and abc.com/ */}
+          {/* Route will render the component passing in the component={COMPONENT} with 3 props history, match, location  */}
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopPage} />
           <Route exact path="/checkout" component={CheckoutPage} />
