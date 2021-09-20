@@ -43,7 +43,7 @@ const Header = ({ currentUser, hidden }) => (
 // State is the top level of rootReducer or we can decompose the value in rootReducer and take
 // the props we need, for example currentUser from user in rootReducer ( which will return userReducer.state)
 
-// createStructuredSelector will help to pass the state to the functions (selectCurrentUser,...) 
+// createStructuredSelector will help to pass the state (the rootReducer) to the functions (selectCurrentUser,...) 
 const mapStateToProps = createStructuredSelector({
     currentUser: selectCurrentUser,
     hidden: selectCartHidden

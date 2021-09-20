@@ -25,6 +25,7 @@ const mapDispatchToProps = dispatch => ({
 })
 
 // Remember cartItems is an object so put in {}
+// createStructuredSelector will automatically add state to the function from selector exmple: selectCartItemsCount(state)
 const mapStateToProps = createStructuredSelector({
     itemCount: selectCartItemsCount
 })

@@ -1,10 +1,11 @@
 import { createSelector } from "reselect";
 
+// cart is a part of state
 const selectCart = state => state.cart;
 
 export const selectCartItems = createSelector(
-    [selectCart],
-    (cart) => cart.cartItems 
+    [selectCart], // the collection taking from the rootReducer, in here is the cart object in rootReducer which has cart, user, ...
+    (cart) => cart.cartItems  // return value
 );
 
 export const selectCartHidden = createSelector(
@@ -13,7 +14,7 @@ export const selectCartHidden = createSelector(
 );
 
 export const selectCartItemsCount = createSelector(
-    [selectCartItems],
+    [selectCartItems], // the collection of cartItems taking form selectCartItems
     cartItems => cartItems.reduce(
         (accumalatedQuantity, cartItem) => 
         accumalatedQuantity + cartItem.quantity, 
