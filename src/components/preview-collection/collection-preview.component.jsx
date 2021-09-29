@@ -13,7 +13,8 @@ const CollectionPreview = ({ title, items }) => (
                 // We use the item object not the whole ({id, ...other}) => (item) in the .map props
                 .map((item) => (
                     <CollectionItem key={item.id} item={item} />
-                ))}
+                ))
+            }
         </div>
     </div>
 )
