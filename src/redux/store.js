@@ -13,6 +13,7 @@ import rootReducer from './root-reducer';
 
 const middlewares = []
 
+// if the env is dev push the logger, if the env is test and deployment not add logger
 if (process.env.NODE_ENV === 'development'){
     middlewares.push(logger)
 }
