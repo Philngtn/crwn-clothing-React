@@ -54,6 +54,26 @@ export const addCollectionAndDocuments = async (collectionKey, objectToAdd) => {
 
 };
 
+export const convertCollectionsSnapshotToMap = (collections) => {
+    // We will retrieve the collections on Firestore and loop to get the data of each
+    const transformedCollection = collections.docs.map(doc => {
+        const {title, items} = doc.data();
+        // return the object the contain valueable info
+        return {
+            routeName: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title, 
+            items
+        };
+    });
+
+    return transformedCollection.reduce((accumulator, collection) => {
+        accumulator[collection.title.toLowerCase()] = collection;
+        return accumulator;
+        // begining with empty hashmap, then accumulate the name + collection then return
+     },{});
+
+};
 
 
 firebase.initializeApp(config);
