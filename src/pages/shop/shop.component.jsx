@@ -3,6 +3,8 @@ import React from 'react'
 import CollectionOverview from '../../components/collection-overview/collection-overview.component'
 import CollectionPage from '../collection/collection.component';
 
+import './shop.style.scss'
+
 import { Route } from 'react-router-dom';
 
 import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/filebase.utils'
@@ -10,6 +12,8 @@ import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/fileb
 import { connect } from 'react-redux';
 
 import { updateCollections } from '../../redux/shop/shop.action'
+
+
 
 class ShopPage extends React.Component {
 
