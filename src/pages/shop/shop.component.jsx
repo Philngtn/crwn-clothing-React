@@ -1,21 +1,29 @@
 import React from 'react'
 
-import CollectionOverview from '../../components/collection-overview/collection-overview.component'
+import CollectionsOverview from '../../components/collection-overview/collection-overview.component'
 import CollectionPage from '../collection/collection.component';
 
 import './shop.style.scss'
 
 import { Route } from 'react-router-dom';
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/filebase.utils'
+import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/filebase.utils';
 
 import { connect } from 'react-redux';
 
-import { updateCollections } from '../../redux/shop/shop.action'
+import { updateCollections } from '../../redux/shop/shop.action';
 
+import WithSpinner from '../../components/with-spinner/with-spinner.component';
+
+const CollectionsOveriviewWithSpinner = WithSpinner(CollectionsOverview);
+const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
 
 class ShopPage extends React.Component {
+
+    state = {
+        loading: true
+    };
 
     unsubcribeFromSnapshot = null;
 
@@ -30,17 +38,22 @@ class ShopPage extends React.Component {
         collectionRef.onSnapshot(async snapshot => {
             const collectionMap = convertCollectionsSnapshotToMap(snapshot);
             updateCollections(collectionMap);
-        })
+            this.setState({ loading: false });
+        });
     }
 
     render() {
 
         const { match } = this.props;
+        const { loading } = this.state;
 
         return (
             <div className='shop-page'>
-                <Route exact path={`${match.path}`} component={CollectionOverview} />
-                <Route path={`${match.path}/:collectionId`} component={CollectionPage} />
+                <Route exact path={`${match.path}`} render={(props) => <CollectionsOveriviewWithSpinner isLoading={loading} {...props} />} />
+                <Route
+                    path={`${match.path}/:collectionId`}
+                    render={(props) => <CollectionPageWithSpinner isLoading={loading} {...props} />}
+                />
             </div>
         );
     }

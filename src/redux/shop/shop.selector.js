@@ -10,13 +10,13 @@ export const selectCollections = createSelector(
 
 export const selectCollectionsForPreview = createSelector(
     [selectCollections],
-    collections => collections ? Object.keys(collections).map(key => collections[key]) : []
+    collections => collections ? Object.keys(collections).map(key => collections[key]) : [] 
 );
 
 
 export const selectCollection = memorize((collectionUrlParam) => createSelector(
     [selectCollections],
-    collections => collections[collectionUrlParam]
+    collections => (collections ? collections[collectionUrlParam] : null)
 ));
 
 //  our selectCollection function we just wrote is not memoized due to collectionUrlParam being passed in from our collection 
