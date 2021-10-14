@@ -35,7 +35,7 @@ class ShopPage extends React.Component {
         const collectionRef = firestore.collection('collections');
         // Get snapshot from the collection and pass to the function to decompose to customized object 
         // that contain necessary information for front end
-        collectionRef.onSnapshot(async snapshot => {
+        collectionRef.get().then(async snapshot => {
             const collectionMap = convertCollectionsSnapshotToMap(snapshot);
             updateCollections(collectionMap);
             this.setState({ loading: false });
