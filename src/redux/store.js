@@ -3,15 +3,18 @@
 import {createStore, applyMiddleware } from 'redux';
 
 // Saving the cache
-import { persistStore } from 'redux-persist'
-
+import { persistStore } from 'redux-persist';
 
 // Logger lets you replay problems as if they happened in your own browser
-import logger from 'redux-logger'
+import logger from 'redux-logger';
+
+// Thunk is for async calling
+import thunk from 'redux-thunk';
+
 
 import rootReducer from './root-reducer';
 
-const middlewares = []
+const middlewares = [thunk]
 
 // if the env is dev push the logger, if the env is test and deployment not add logger
 if (process.env.NODE_ENV === 'development'){
@@ -19,7 +22,7 @@ if (process.env.NODE_ENV === 'development'){
 }
 
 // Store can be considered as an database for all states
-export const store = createStore(rootReducer, applyMiddleware(...middlewares))
+export const store = createStore(rootReducer, applyMiddleware(...middlewares));
 
 export const persistor = persistStore(store);
 
