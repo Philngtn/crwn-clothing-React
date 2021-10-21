@@ -29,8 +29,8 @@ export function* fetchCollectionsAsync(){
 }
 
 
-// takeEvery will cancel all the action fired previously
-// and only load the most recent one.
+// takeEvery will take all the action fired even the previous actions 
+// have yet terminated
 export function* fetchCollectionsStart(){
     yield takeEvery(
         ShopActionTypes.FETCH_COLLECTIONS_START,
