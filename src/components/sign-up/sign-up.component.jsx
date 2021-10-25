@@ -3,9 +3,10 @@ import React from 'react';
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
 
-import { auth, createUserProfileDocument } from '../../firebase/filebase.utils';
-
 import './sign-up.style.scss'
+
+import { connect } from 'react-redux';
+import { signUpStart } from '../../redux/user/user.action';
 
 class SignUp extends React.Component {
     constructor() {
@@ -23,26 +24,20 @@ class SignUp extends React.Component {
         event.preventDefault();
 
         const { displayName, email, password, confirmPassword } = this.state;
+        const { signUpStart } = this.props;
+
+        if (password.length < 8 || password.length > 25) {
+            alert("Your password must be between 8 to 25 chacters. The one you entered had " + password.length + " characters");
+            return;
+        }
+
         if (password !== confirmPassword) {
             alert("Password do not match");
             return;
         }
 
-        try {
-            const { user } = await auth.createUserWithEmailAndPassword(email, password);
+        signUpStart({ email, password, displayName });
 
-            createUserProfileDocument(user, { displayName });
-
-            this.setState({
-                displayName: '',
-                email: '',
-                password: '',
-                confirmPassword: ''
-            });
-
-        } catch (error) {
-            console.error(error);
-        }
 
     }
 
@@ -102,8 +97,12 @@ class SignUp extends React.Component {
         )
     }
 
-
-
 }
 
-export default SignUp;
+const mapDispatchToProps = dispatch => ({
+    signUpStart: (userCredentials) =>
+        dispatch(signUpStart(userCredentials))
+})
+
+
+export default connect(null, mapDispatchToProps)(SignUp);

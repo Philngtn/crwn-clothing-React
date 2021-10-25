@@ -8,13 +8,11 @@ import ShopPage from "./pages/shop/shop.component";
 import Header from "./components/header/header.component";
 import SignInAndSignUpPage from "./components/signin-and-signout/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
-// Firebase
-import {auth , createUserProfileDocument } from './firebase/filebase.utils';
 
 // Redux
-import { setCurrentUser } from './redux/user/user.action';
 import { connect } from 'react-redux';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { checkUserSession } from './redux/user/user.action'
 
 
 class App extends React.Component {
@@ -24,32 +22,8 @@ class App extends React.Component {
   unsubcribeFromAuth = null;
 
   componentDidMount(){
-
-    const { setCurrentUser } = this.props;
-
-    // Using onAuthStateChange to check current logged in user
-    this.unsubcribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      // If there is a user logged in  -> performing the snapshot or wait to check wheter a logged user
-      // is in the database or not (if not -> create one in database then return that newly registered user, else return recorded user)
-      if (userAuth){
-        const userRef = await createUserProfileDocument(userAuth);
-        
-        // Taking snapshot and set the currentUser state
-        // If we want to see the log, add to the 2nd arg of the setState command to see the latest updated of state (old)
-        // Using REDUX instead
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          });
-        });
-      }else{
-        // else return null;
-        setCurrentUser(userAuth);
-      }
-
-
-    });
+    const {checkUserSession} = this.props;
+    checkUserSession();
   }
 
   componentWillUnmount(){
@@ -88,11 +62,12 @@ class App extends React.Component {
 
 const mapStateToProps = createStructuredSelector({
   currentUser : selectCurrentUser,
-})
+});
 
 const mapDispatchToProps = dispatch => ({
-    setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
+
 
 // null because the App does not need the props from Reducer, the second arg is used to let "user state" to use inside the App component
 export default connect(mapStateToProps, mapDispatchToProps)(App);
