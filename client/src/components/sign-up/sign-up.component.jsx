@@ -1,103 +1,88 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { connect } from "react-redux";
 
-import FormInput from '../form-input/form-input.component';
-import CustomButton from '../custom-button/custom-button.component';
+import FormInput from "../form-input/form-input.component";
+import CustomButton from "../custom-button/custom-button.component";
 
-import './sign-up.style.scss'
+import { signUpStart } from "../../redux/user/user.action";
 
-import { connect } from 'react-redux';
-import { signUpStart } from '../../redux/user/user.action';
+import { SignUpContainer, SignUpTitle } from "./sign-up.styles";
+import { ButtonsBarContainer } from "../sign-in/sign-in.styles";
 
 const SignUp = ({ signUpStart }) => {
+  const [userCredentials, setUserCredentials] = useState({
+    displayName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
-    const [userCredentials, setCredentials] = useState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-    });
+  const { displayName, email, password, confirmPassword } = userCredentials;
 
-    const { displayName, email, password, confirmPassword } = userCredentials;
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-    const handleSubmit = async event => {
-        event.preventDefault();
-
-        const { displayName, email, password, confirmPassword } = this.state;
-
-        if (password.length < 8 || password.length > 25) {
-            alert("Your password must be between 8 to 25 chacters. The one you entered had " + password.length + " characters");
-            return;
-        }
-
-        if (password !== confirmPassword) {
-            alert("Password do not match");
-            return;
-        }
-
-        signUpStart({ email, password, displayName });
-
-
+    if (password !== confirmPassword) {
+      alert("passwords don't match");
+      return;
     }
 
-    const handleChange = event => {
-        const { name, value } = event.target;
-        setCredentials({ ...userCredentials, [name]: value })
-    }
+    signUpStart({ displayName, email, password });
+  };
 
-    return (
-        <div className='sign-up'>
-            <h2 className='title'>I do not have a account</h2>
-            <span>Sign up with your email and password</span>
-            <form className='sign-up-form' onSubmit={handleSubmit}>
-                <FormInput
-                    type='text'
-                    name='displayName'
-                    value={displayName}
-                    onChange={handleChange}
-                    label='Display Name'
-                    required
-                />
+  const handleChange = (event) => {
+    const { name, value } = event.target;
 
-                <FormInput
-                    type='email'
-                    name='email'
-                    value={email}
-                    onChange={handleChange}
-                    label='Email'
-                    required
-                />
+    setUserCredentials({ ...userCredentials, [name]: value });
+  };
 
-                <FormInput
-                    type='password'
-                    name='password'
-                    value={password}
-                    onChange={handleChange}
-                    label='Password'
-                    required
-                />
+  return (
+    <SignUpContainer>
+      <SignUpTitle>I do not have a account</SignUpTitle>
+      <span>Sign up with your email and password</span>
+      <form className="sign-up-form" onSubmit={handleSubmit}>
+        <FormInput
+          type="text"
+          name="displayName"
+          value={displayName}
+          onChange={handleChange}
+          label="Display Name"
+          required
+        />
+        <FormInput
+          type="email"
+          name="email"
+          value={email}
+          onChange={handleChange}
+          label="Email"
+          required
+        />
+        <FormInput
+          type="password"
+          name="password"
+          value={password}
+          onChange={handleChange}
+          label="Password"
+          required
+        />
+        <FormInput
+          type="password"
+          name="confirmPassword"
+          value={confirmPassword}
+          onChange={handleChange}
+          label="Confirm Password"
+          required
+        />
+        <ButtonsBarContainer>
+          <CustomButton type="submit">SIGN UP</CustomButton>
+        </ButtonsBarContainer>
+      </form>
+    </SignUpContainer>
+  );
+};
 
-                <FormInput
-                    type='password'
-                    name='confirmPassword'
-                    value={confirmPassword}
-                    onChange={handleChange}
-                    label='Confirm Password'
-                    required
-                />
-                <CustomButton type='submit'>
-                    SIGN UP
-                </CustomButton>
-            </form>
-        </div>
-    )
-}
-
-
-
-const mapDispatchToProps = dispatch => ({
-    signUpStart: (userCredentials) =>
-        dispatch(signUpStart(userCredentials))
-})
-
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (userCredentials) => dispatch(signUpStart(userCredentials)),
+});
 
 export default connect(null, mapDispatchToProps)(SignUp);
