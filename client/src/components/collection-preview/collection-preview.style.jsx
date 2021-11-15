@@ -20,7 +20,9 @@ export const TitleContainer = styled.h1`
 `;
 
 export const PreviewContainer = styled.div`
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-gap: 10px;
   justify-content: space-between;
 
   @media screen and (max-width: 800px) {
